@@ -12,7 +12,7 @@ class Solution(object):
         :rtype: List[int]
         """
         self.results = []
-        self._do_inorder_r(root)
+        self._do_inorder_i(root)
         return self.results
 
     def _do_inorder_r(self, root):
@@ -27,3 +27,24 @@ class Solution(object):
     def _do_inorder_i(self, root):
         """Iteration"""
         ...
+        if root is None:
+            return
+
+        stack = [root]
+
+        while len(stack) != 0:
+            node = stack.pop(-1)
+
+            if node.right is None and node.left is None:
+                self.results.append(node.val)
+                continue
+
+            if node.right is not None:
+                stack.append(node.right)
+                node.right = None
+
+            stack.append(node)
+
+            if node.left is not None:
+                stack.append(node.left)
+                node.left = None
