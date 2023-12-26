@@ -17,11 +17,12 @@ class Solution:
 
 
             state[row][col] = True
+            word = word[1:]
             r = (
-                backtrack(row, col + 1, state, word[1:]) or
-                backtrack(row, col - 1, state, word[1:]) or
-                backtrack(row - 1, col, state, word[1:]) or
-                backtrack(row + 1, col, state, word[1:])
+                backtrack(row, col + 1, state, word) or
+                backtrack(row, col - 1, state, word) or
+                backtrack(row - 1, col, state, word) or
+                backtrack(row + 1, col, state, word)
             )
             state[row][col] = False
             return r
