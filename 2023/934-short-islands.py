@@ -46,3 +46,39 @@ class Solution:
                             self.sides_queue.append((di, dj))
 
         return -1
+
+class Solution:
+    def shortestBridge(self, grid: List[List[int]]) -> int:
+        if not grid or not grid[0]:
+            return 0
+
+        from collections import deque
+
+        m, n = len(grid), len(grid[0])
+        queue = deque()
+
+        def bfs(i, j):
+            queue.append((i, j, 0))
+            grid[i][j] = 2
+
+            while queue:
+                ci, cj, levels = queue.popleft()
+
+                for di, dj in ((ci + 1, cj), (ci - 1, cj), (ci, cj + 1), (ci, cj - 1)):
+                    if di < 0 or di >= m or dj < 0 or dj >= n or grid[di][dj] == 2:
+                        continue
+
+                    if grid[di][dj] == 0:
+                        queue.append((di, dj, levels + 1))
+                    elif grid[di][dj] == 1:
+                        if levels == 0:
+                            queue.appendleft((di, dj, levels))
+                        else:
+                            return levels
+
+                    grid[di][dj] = 2
+
+        for i in range(0, m):
+            for j in range(0, n):
+                if grid[i][j] == 1:
+                    return bfs(i, j)
